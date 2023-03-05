@@ -1,0 +1,35 @@
+version: "3.9"
+services:
+  db:
+    image: "postgres:14.3-alpine3.15"
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=keycloak
+
+
+  auth:
+    image: "quay.io/keycloak/keycloak:latest"
+    ports:
+      - "8080:8080"
+    environment:
+      - KC_HEALTH_ENABLED=true
+
+      - KC_DB=postgres
+      - KC_DB_URL_HOST=db
+      - KC_DB_URL_PORT=5432
+      - KC_DB_PASSWORD=postgres
+      - KC_DB_SCHEMA=public
+      - KC_DB_URL_DATABASE=keycloak
+      - KC_DB_USERNAME=postgres
+
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+
+    command: 
+    - "start-dev"
+
+    depends_on:
+      - db
