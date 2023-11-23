@@ -4,4 +4,4 @@ global:
 scrape_configs:
  - job_name: "keycloak"
    static_configs:
-    - targets: [ "auth:8080" ]
+    - targets: [ "keycloak:8080" ]
